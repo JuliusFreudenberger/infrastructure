@@ -1,0 +1,16 @@
+version: "3"
+services:
+  service_name:
+    image: image
+    environment: 
+      - VIRTUAL_HOST=test.jfreudenberger.de # the domain where the service should be reached
+      - VIRTUAL_PORT=8000 # the port the service listens in the container
+      - LETSENCRYPT_HOST=test.jfreudenberger.de # the same domain as VIRTUAL_HOST; this enables ssl
+    networks:
+      - webproxy
+      
+networks:
+ webproxy:
+   external:
+     name: webproxy
+
