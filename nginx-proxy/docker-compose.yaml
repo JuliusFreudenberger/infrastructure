@@ -24,7 +24,7 @@ services:
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       # - ./nginx.tmpl:/etc/docker-gen/templates/nginx.tmpl # use this for the file next to this file
-      - nginx-tmpl:/etc/docker-gen/templates/ # use this for a named volume containing the file
+      - nginx_tmpl:/etc/docker-gen/templates/ # use this for a named volume containing the file
     networks:
       - webproxy
 
@@ -41,6 +41,7 @@ services:
 
 volumes:
   nginx_conf:
+  nginx_tmpl:
   certs:
   vhost:
   html:
