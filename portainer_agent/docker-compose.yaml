@@ -1,0 +1,20 @@
+version: "3"
+services: 
+  portainer-agent:
+    image: portainer/agent:2.11.0
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock 
+      - /var/lib/docker/volumes:/var/lib/docker/volumes 
+      - /:/host 
+      - portainer_agent_data:/data 
+    environment:
+      - EDGE=1 
+      - EDGE_ID=id # set to edge id from portainer ui
+      - EDGE_KEY=key # set to edge key from portainer ui
+      - CAP_HOST_MANAGEMENT=1 
+      # - EDGE_INSECURE_POLL=1 # enable this to trust self-signed ssl certificates
+
+
+volumes:
+  portainer_agent_data:
