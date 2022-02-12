@@ -9,6 +9,8 @@ services:
       - POSTGRES_PASSWORD=postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - nextcloud
 
   app:
     image: nextcloud:${nextcloud_version:-latest}
@@ -24,11 +26,13 @@ services:
       - db
     networks:
       - webproxy
+      - nextcloud
       
 networks:
- webproxy:
-   external:
-     name: webproxy
+  nextcloud:
+  webproxy:
+   external: true
+   name: webproxy
 
 volumes:
   postgres_data:
