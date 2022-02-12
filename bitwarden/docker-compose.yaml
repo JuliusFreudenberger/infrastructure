@@ -2,7 +2,7 @@ version: '3'
 
 services:
   bitwarden:
-    image: vaultwarden/server:latest
+    image: vaultwarden/server:${vaultwarden_version:-latest}
     restart: always
     volumes:
       - bitwarden-data:/data
