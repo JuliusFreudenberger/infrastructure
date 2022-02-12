@@ -1,0 +1,35 @@
+version: '3.2'
+
+services:
+  db:
+    image: postgres:${postgres_version:-14}
+    environment:
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    image: nextcloud:${nextcloud_version:-latest}
+    volumes:
+      - /media/nextcloud/nextcloud_data:/var/www/html/data
+      - /media/nextcloud/nextcloud_config:/var/www/html/config
+      - /media/nextcloud/nextcloud_apps:/var/www/html/custom_apps
+    environment: 
+      - VIRTUAL_HOST=cloud.jfreudenberger.de # the domain where the service should be reached
+      - VIRTUAL_PORT=80 # the port the service listens in the container
+      - LETSENCRYPT_HOST=cloud.jfreudenberger.de # the same domain as VIRTUAL_HOST; this enables ssl
+    depends_on:
+      - db
+    networks:
+      - webproxy
+      
+networks:
+ webproxy:
+   external:
+     name: webproxy
+
+volumes:
+  postgres_data:
+   
