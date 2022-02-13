@@ -3,6 +3,7 @@ services:
   nginx:
     image: nginx
     container_name: nginx
+    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
@@ -19,6 +20,7 @@ services:
     container_name: dockergen
     command: -notify-sighup nginx -watch -wait 5s:30s /etc/docker-gen/templates/nginx.tmpl
       /etc/nginx/conf.d/default.conf
+    restart: unless-stopped
     volumes_from:
       - nginx
     volumes:
@@ -30,6 +32,7 @@ services:
 
   acme-companion:
     image: nginxproxy/acme-companion
+    restart: unless-stopped
     volumes_from:
       - nginx
     volumes:
