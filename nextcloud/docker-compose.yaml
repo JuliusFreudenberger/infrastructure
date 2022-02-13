@@ -3,6 +3,7 @@ version: '3.2'
 services:
   db:
     image: postgres:${postgres_version:-14}
+    restart: unless-stopped
     environment:
       - POSTGRES_DB=nextcloud
       - POSTGRES_USER=postgres
@@ -14,6 +15,7 @@ services:
 
   app:
     image: nextcloud:${nextcloud_version:-latest}
+    restart: unless-stopped
     volumes:
       - /media/nextcloud/nextcloud_data:/var/www/html/data
       - /media/nextcloud/nextcloud_config:/var/www/html/config
