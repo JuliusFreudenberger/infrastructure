@@ -6,6 +6,10 @@ services:
     restart: unless-stopped
     volumes:
       - /media/matrix/matrix_data:/data
+    environment:
+      - VIRTUAL_HOST=matrix.jfreudenberger.de # the domain where the service should be reached
+      - VIRTUAL_PORT=80 # the port the service listens in the container
+      - LETSENCRYPT_HOST=matrix.jfreudenberger.de # the same domain as VIRTUAL_HOST; this enables ssl
     networks:
       - server
 
@@ -17,9 +21,6 @@ services:
       - POSTGRES_USER=synapse
       - POSTGRES_DB=synapse
       - POSTGRES_INITDB_ARGS=--encoding='UTF8' --lc-collate='C' --lc-ctype='C'
-      - VIRTUAL_HOST=matrix.jfreudenberger.de # the domain where the service should be reached
-      - VIRTUAL_PORT=80 # the port the service listens in the container
-      - LETSENCRYPT_HOST=matrix.jfreudenberger.de # the same domain as VIRTUAL_HOST; this enables ssl
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
