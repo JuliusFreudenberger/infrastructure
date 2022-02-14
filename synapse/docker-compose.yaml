@@ -12,6 +12,7 @@ services:
       - LETSENCRYPT_HOST=matrix.jfreudenberger.de # the same domain as VIRTUAL_HOST; this enables ssl
     networks:
       - server
+      - webproxy
 
   postgresql:
     image: postgres:${postgres_version:-13}
@@ -30,5 +31,7 @@ volumes:
   postgres_data:
 
 networks:
-   server:
-     external: false
+  server:
+    external: false
+  webproxy:
+    external: true
