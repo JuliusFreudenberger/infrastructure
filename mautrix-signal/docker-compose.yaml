@@ -1,0 +1,42 @@
+version: "3.7"
+
+services:
+  mautrix-signal:
+    container_name: mautrix-signal
+    image: dock.mau.dev/mautrix/signal
+    restart: unless-stopped
+    volumes:
+    - bridge_data:/data
+    - signald_data:/signald
+    depends_on:
+    - signald
+    networks:
+    - default
+    - synapsenet
+
+  signald:
+    container_name: signald
+    image: docker.io/signald/signald
+    restart: unless-stopped
+    volumes: 
+    - signald_data:/signald
+  db:
+    image: postgres:${postgres_version:-13-alpine}
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: mautrixsignal
+      POSTGRES_DATABASE: mautrixsignal
+      POSTGRES_PASSWORD: mautrixsignal
+    volumes:
+    - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  bridge_data:
+  signald_data:
+  postgres_data:
+
+networks:
+  synapsenet:
+    external: true
+    name: synapsenet
+
