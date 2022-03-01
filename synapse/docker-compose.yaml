@@ -6,6 +6,7 @@ services:
     restart: unless-stopped
     volumes:
       - /media/matrix/matrix_data:/data
+      - custom_modules:/usr/local/lib/python3.8/site-packages/custom_modules
     environment:
       - VIRTUAL_HOST=matrix.jfreudenberger.de # the domain where the service should be reached
       - VIRTUAL_PORT=8008 # the port the service listens in the container
@@ -29,6 +30,7 @@ services:
       - server
 
 volumes:
+  custom_modules:
   postgres_data:
 
 networks:
