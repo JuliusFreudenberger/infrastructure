@@ -13,6 +13,7 @@ services:
     networks:
       - server
       - webproxy
+      - synapsenet
 
   postgresql:
     image: postgres:${postgres_version:-13}
@@ -35,3 +36,4 @@ networks:
     external: false
   webproxy:
     external: true
+  synapsenet:
