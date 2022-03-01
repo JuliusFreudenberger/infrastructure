@@ -37,3 +37,4 @@ networks:
   webproxy:
     external: true
   synapsenet:
+    name: synapsenet
