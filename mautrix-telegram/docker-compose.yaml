@@ -1,0 +1,20 @@
+version: "3.7"
+
+services:
+  mautrix-telegram:
+    container_name: mautrix-telegram
+    image: dock.mau.dev/mautrix/telegram
+    restart: unless-stopped
+    volumes:
+    - bridge_data:/data
+    networks:
+    - synapsenet
+
+volumes:
+  bridge_data:
+
+networks:
+  synapsenet:
+    external: true
+    name: synapsenet
+
