@@ -17,6 +17,7 @@ services:
       - db
     networks:
       - firefly
+      - db
       - webproxy
 
   db:
@@ -28,7 +29,7 @@ services:
     volumes:
       - firefly_iii_db:/var/lib/postgresql/data
     networks:
-      - firefly
+      - db
 
   cron:
     image: alpine
@@ -36,9 +37,19 @@ services:
     networks:
       - firefly
 
+  fints-importer:
+    image: benkl/firefly-iii-fints-importer
+    volumes:
+      - importer-configurations:/app/configurations
+    ports:
+      - 8080:8080
+    networks:
+      - firefly
+
 volumes:
   firefly_iii_upload:
   firefly_iii_db:
+  importer-configurations:
 
 networks:
   firefly:
