@@ -1,0 +1,35 @@
+version: v2
+teleport:
+  nodename: srv02
+  data_dir: /var/lib/teleport
+  log:
+    output: /var/lib/teleport/teleport.log
+    severity: ERROR
+    format:
+      output: text
+  ca_pin: []
+  diag_addr: ""
+auth_service:
+  enabled: "yes"
+  listen_addr: 0.0.0.0:3025
+  public_addr: tp.jfreudenberger.de:3025
+  cluster_name: "tp.jfreudenberger.de"
+  proxy_listener_mode: multiplex
+ssh_service:
+  enabled: "yes"
+  commands:
+  - name: hostname
+    command: [hostname]
+    period: 1m0s
+  - name: UP
+    command: ["/bin/sh", "-c", "uptime -p | cut -c4- | cut -d',' -f1"]
+    period: 1h0m0s
+  permit_user_env: true
+proxy_service:
+  enabled: "yes"
+  web_listen_addr: 0.0.0.0:443
+  public_addr: tp.jfreudenberger.de:443
+  https_keypairs: []
+  acme:
+    enabled: "yes"
+    email: julius@jfreudenberger.de

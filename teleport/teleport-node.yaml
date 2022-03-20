@@ -1,0 +1,33 @@
+teleport:
+  nodename: sx48p2
+  data_dir: /var/lib/teleport
+  auth_token: auth_token
+  auth_servers:
+    - tp.jfreudenberger.de:443
+  log:
+    output: /var/lib/teleport/teleport.log
+    severity: ERROR
+  ca_pin: ca_pin
+auth_service:
+  enabled: no
+ssh_service:
+  enabled: yes
+  permit_user_env: true
+  commands:  
+  - name: hostname
+    command: [hostname]
+    period: 1m0s
+  - name: IP
+    command: ["/usr/bin/curl", "ifconfig.me"]
+    period: 1h0m0s
+  - name: UP
+    command: ["/bin/sh", "-c", "uptime -p | cut -c4- | cut -d',' -f1"]
+    period: 1h0m0s
+proxy_service:
+  enabled: no
+app_service:
+  enabled: yes
+  apps:
+  - name: app_name
+    uri: app_uri
+
