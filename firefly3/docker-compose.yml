@@ -3,6 +3,7 @@ version: '3.3'
 services:
   app:
     image: fireflyiii/core:${firefly_version:-latest}
+    restart: unless-stopped
     volumes:
       - firefly_iii_upload:/var/www/html/storage/upload
     env_file: .env
@@ -22,6 +23,7 @@ services:
 
   db:
     image: postgres:${postgres_version:-14}
+    restart: unless-stopped
     environment:
       - POSTGRES_USER=firefly
       - POSTGRES_PASSWORD=firefly
@@ -33,12 +35,14 @@ services:
 
   cron:
     image: alpine
+    restart: unless-stopped
     command: sh -c "echo \"0 3 * * * wget -qO- http://app:8080/api/v1/cron/${STATIC_CRON_TOKEN:-SomeRandomStringOf32CharsExactly}\" | crontab - && crond -f -L /dev/stdout"
     networks:
       - firefly
 
   fints-importer:
     image: benkl/firefly-iii-fints-importer
+    restart: unless-stopped
     volumes:
       - importer-configurations:/app/configurations
     ports:
