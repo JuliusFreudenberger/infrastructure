@@ -3,7 +3,7 @@ version: '3'
 services:
   bitwarden:
     image: vaultwarden/server:${vaultwarden_version:-latest}
-    restart: always
+    restart: unless-stopped
     volumes:
       - bitwarden-data:/data
     environment:
@@ -11,6 +11,8 @@ services:
       - VIRTUAL_HOST=bitwarden.jfreudenberger.de
       - VIRTUAL_PORT=80
       - LETSENCRYPT_HOST=bitwarden.jfreudenberger.de
+    networks:
+      - webproxy
 
 volumes:
   bitwarden-data:
