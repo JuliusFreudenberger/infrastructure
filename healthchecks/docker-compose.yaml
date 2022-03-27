@@ -1,0 +1,42 @@
+version: '3.5'
+services:
+  healthchecks:
+    image: ghcr.io/linuxserver/healthchecks:${healthchecks_version:-latest}
+    container_name: healthchecks
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - SITE_ROOT=https://health.jfreudenberger.de
+      - SITE_NAME=Healthchecks
+      - DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+      - EMAIL_USE_TLS=True
+      - MATRIX_HOMESERVER=${MATRIX_HOMESERVER}
+      - MATRIX_USER_ID=${MATRIX_USER_ID}
+      - MATRIX_ACCESS_TOKEN=${MATRIX_ACCESS_TOKEN}
+      - ALLOWED_HOSTS=['health.jfreudenberger.de']
+      - SUPERUSER_EMAIL=${SUPERUSER_EMAIL}
+      - SUPERUSER_PASSWORD=${SUPERUSER_PASSWORD}
+      - REGENERATE_SETTINGS=True
+      - REGISTRATION_OPEN=${REGISTRATION_OPEN:-False}
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=${DEBUG:-False}
+      - VIRTUAL_HOST=health.jfreudenberger.de
+      - VIRTUAL_PORT=80
+      - LETSENCRYPT_HOST=health.jfreudenberger.de
+    volumes:
+      - config:/config
+    networks:
+      - webproxy
+
+volumes:
+  config:
+
+networks:
+  webproxy:
+    external: true
+    name: webproxy
