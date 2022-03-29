@@ -1,0 +1,67 @@
+version: "3"
+
+services:
+  gitea:
+    image: gitea/gitea:${gitea_version:-latest}
+    restart: unless-stopped
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA__database__DB_TYPE=mysql
+      - GITEA__database__HOST=db:3306
+      - GITEA__database__NAME=gitea
+      - GITEA__database__USER=gitea
+      - GITEA__database__PASSWD=gitea
+      - GITEA__server__DOMAIN=git.jfreudenberger.de
+      - GITEA__server__SSH_DOMAIN=git.jfreudenberger.de
+      - GITEA__server__ROOT_URL=https://git.jfreudenberger.de
+      - GITEA__server__LFS_JWT_SECRET=${LFS_JWT_SECRET}
+      - GITEA__security__SECRET_KEY=${SECRET_KEY}
+      - GITEA__security__INTERNAL_TOKEN=${INTERNAL_TOKEN}
+      - GITEA__service__NO_REPLY_ADDRESS=${NO_REPLY_ADDRESS:-noreply@jfreudenberger.de}
+      - GITEA__oauth__JWT_SECRET=${OAUTH_JWT_SECRET}
+      - GITEA__mailer__ENABLED=${MAILER_ENABLED:-false}
+      - GITEA__mailer__HOST=${MAILER_HOST}
+      - GITEA__mailer__FROM=${MAILER_FROM}
+      - GITEA__mailer__USER=${MAILER_USER}
+      - GITEA__mailer__PASSWD=${MAILER_PASSWD}
+      - VIRTUAL_HOST=git.jfreudenberger.de
+      - VIRTUAL_PORT=3000
+      - LETSENCRYPT_HOST=git.jfreudenberger.de
+    volumes:
+      - gitea-data:/data
+      - gitea-backup:/backup
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "222:22"
+    depends_on:
+      - db
+    networks:
+      - gitea
+      - webproxy
+
+  db:
+    image: mariadb:${mariadb_version:-10.7}
+    restart: unless-stopped
+    environment:
+      - MARIADB_ROOT_PASSWORD=gitea
+      - MARIADB_USER=gitea
+      - MARIADB_PASSWORD=gitea
+      - MARIADB_DATABASE=gitea
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    networks:
+      - gitea
+
+volumes:
+  gitea-data:
+  gitea-backup:
+  mariadb-data:
+
+networks:
+  gitea:
+  webproxy:
+    external: true
+    name: webproxy
+
