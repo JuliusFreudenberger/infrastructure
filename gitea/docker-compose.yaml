@@ -18,6 +18,8 @@ services:
       - GITEA__server__LFS_JWT_SECRET=${LFS_JWT_SECRET}
       - GITEA__security__SECRET_KEY=${SECRET_KEY}
       - GITEA__security__INTERNAL_TOKEN=${INTERNAL_TOKEN}
+      - GITEA__security__INSTALL_LOCK=${INSTALL_LOCK:-true}
+      - GITEA__service__DISABLE_REGISTRATION=${DISABLE_REGISTRATION:-true}
       - GITEA__service__NO_REPLY_ADDRESS=${NO_REPLY_ADDRESS:-noreply@jfreudenberger.de}
       - GITEA__oauth__JWT_SECRET=${OAUTH_JWT_SECRET}
       - GITEA__mailer__ENABLED=${MAILER_ENABLED:-false}
