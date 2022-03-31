@@ -3,7 +3,7 @@ teleport:
   data_dir: /var/lib/teleport
   auth_token: auth_token
   auth_servers:
-    - tp.jfreudenberger.de:443
+    - tp.jfreudenberger.de:3023
   log:
     output: /var/lib/teleport/teleport.log
     severity: ERROR
