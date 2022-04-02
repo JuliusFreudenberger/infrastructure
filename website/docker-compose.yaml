@@ -1,0 +1,16 @@
+version: "3"
+services:
+  website:
+    image: harbor.jfreudenberger.de:8443/website/app:latest
+    environment: 
+      - VIRTUAL_HOST=jfreudenberger.de,www.jfreudenberger.de # the domain where the service should be reached
+      - VIRTUAL_PORT=80 # the port the service listens in the container
+      - LETSENCRYPT_HOST=jfreudenberger.de,www.jfreudenberger.de # the same domain as VIRTUAL_HOST; this enables ssl
+    networks:
+      - webproxy
+      
+networks:
+ webproxy:
+   external:
+     name: webproxy
+
