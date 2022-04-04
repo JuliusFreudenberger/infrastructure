@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  scrutiny:
+    image: lscr.io/linuxserver/scrutiny
+    container_name: scrutiny
+    restart: unless-stopped
+    cap_add:
+      - SYS_RAWIO
+      - ${NO_NVME:-SYS_ADMIN} # only needed for nvme drives
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+      - SCRUTINY_API_ENDPOINT=http://localhost:8080
+      - SCRUTINY_WEB=true
+      - SCRUTINY_COLLECTOR=true
+      - GIN_MODE=release
+    volumes:
+      - scrutiny_config:/config
+      - /run/udev:/run/udev:ro
+    ports:
+      - 8081:8080
+    devices:
+      - ${first_device:-/dev/tty1}
+      - ${second_device:-/dev/tty2}
+      - ${third_device:-/dev/tty3}
+      - ${fourth_device:-/dev/tty4}
+      - ${fifth_device:-/dev/tty5}
+      # - /dev/sda:/dev/sda
+      # - /dev/disk/by-id/id-of-the-drive:/dev/sda
+      # - /dev/nvme1n1:/dev/nvme1n1
+
+volumes:
+  scrutiny_config:
