@@ -20,7 +20,7 @@ services:
       - scrutiny_config:/config
       - /run/udev:/run/udev:ro
     ports:
-      - 8081:8080
+      - 127.0.0.1:8081:8080
     devices:
       - ${first_device:-/dev/tty1}
       - ${second_device:-/dev/tty2}
