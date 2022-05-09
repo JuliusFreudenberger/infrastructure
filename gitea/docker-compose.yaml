@@ -42,7 +42,7 @@ services:
     networks:
       - gitea
       - webproxy
-      - smtp-relay
+      - smtp_relay
 
   db:
     image: mariadb:${mariadb_version:-10.7}
@@ -67,6 +67,6 @@ networks:
   webproxy:
     external: true
     name: webproxy
-  smtp-relay:
+  smtp_relay:
     external: true
-    name: smtp-relay
+    name: smtp_relay
