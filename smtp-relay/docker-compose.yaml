@@ -1,0 +1,15 @@
+version: '3'
+services:
+  postfix:
+    image: boky/postfix
+    environment:
+      - RELAYHOST=${RELAYHOST}
+      - RELAYHOST_USERNAME=${RELAYHOST_USERNAME}
+      - RELAYHOST_PASSWORD=${RELAYHOST_PASSWORD}
+      - MASQUERADED_DOMAINS=${MASQUERADED_DOMAINS}
+    networks:
+      - smtp_relay
+
+networks:
+  smtp_relay:
+    name: smtp_relay
