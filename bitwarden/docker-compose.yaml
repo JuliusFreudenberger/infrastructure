@@ -13,6 +13,7 @@ services:
       - LETSENCRYPT_HOST=bitwarden.jfreudenberger.de
     networks:
       - webproxy
+      - smtp_relay
 
 volumes:
   bitwarden-data:
@@ -21,3 +22,6 @@ networks:
   webproxy:
     external: true
     name: webproxy
+  smtp_relay:
+    external: true
+    name: smtp_relay
