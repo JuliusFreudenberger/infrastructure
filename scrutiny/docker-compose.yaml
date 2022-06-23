@@ -32,3 +32,4 @@ services:
 
 volumes:
   scrutiny_config:
+  scrutiny_influxdb2:
