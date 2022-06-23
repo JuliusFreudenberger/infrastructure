@@ -2,22 +2,21 @@ version: "3"
 
 services:
   scrutiny:
-    image: lscr.io/linuxserver/scrutiny
+    image: ghcr.io/analogj/scrutiny
     container_name: scrutiny
     restart: unless-stopped
     cap_add:
       - SYS_RAWIO
       - ${NO_NVME:-SYS_ADMIN} # only needed for nvme drives
     environment:
-      - PUID=1000
-      - PGID=1000
       - TZ=Europe/Berlin
       - SCRUTINY_API_ENDPOINT=http://localhost:8080
       - SCRUTINY_WEB=true
       - SCRUTINY_COLLECTOR=true
       - GIN_MODE=release
     volumes:
-      - scrutiny_config:/config
+      - scrutiny_config:/opt/scrutiny/config
+      - scrutiny_influxdb2:/opt/scrutiny/influxdb
       - /run/udev:/run/udev:ro
     ports:
       - 127.0.0.1:8081:8080
