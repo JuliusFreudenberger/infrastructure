@@ -11,7 +11,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - nextcloud
+      - database
 
   app:
     image: nextcloud:${nextcloud_version:-latest}
@@ -28,11 +28,28 @@ services:
       - db
     networks:
       - webproxy
-      - nextcloud
+      - database
+      - onlyoffice
       - smtp_relay
       
+  onlyoffice:
+    image: onlyoffice/documentserver:${onlyoffice_version:-latest}
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=onlyoffice.jfreudenberger.de # the domain where the service should be reached
+      - VIRTUAL_PORT=80 # the port the service listens in the container
+      - LETSENCRYPT_HOST=onlyoffice.jfreudenberger.de # the same domain as VIRTUAL_HOST; this enables ssl
+      - JWT_ENABLED=${ONLYOFFICE_JWT_ENABLED:-false}
+      - JWT_SECRET=${ONLYOFFICE_JWT_SECRET}
+    volumes:
+      - document_data:/var/www/onlyoffice/Data
+      - document_log:/var/log/onlyoffice
+    networks:
+      - onlyoffice
+      - webproxy
 networks:
-  nextcloud:
+  database:
+  onlyoffice:
   webproxy:
    external: true
    name: webproxy
@@ -42,4 +59,6 @@ networks:
 
 volumes:
   postgres_data:
-   
+  document_data:
+  document_log:
+
