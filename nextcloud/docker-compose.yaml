@@ -30,6 +30,7 @@ services:
       - webproxy
       - database
       - onlyoffice
+      - redis
       - smtp_relay
       
   onlyoffice:
@@ -47,9 +48,17 @@ services:
     networks:
       - onlyoffice
       - webproxy
+
+  redis:
+    image: redis:${redis_version:-latest}
+    restart: unless-stopped
+    networks:
+      - redis
+
 networks:
   database:
   onlyoffice:
+  redis:
   webproxy:
    external: true
    name: webproxy
