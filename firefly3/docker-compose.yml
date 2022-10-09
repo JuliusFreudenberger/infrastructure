@@ -20,6 +20,7 @@ services:
       - firefly
       - db
       - webproxy
+      - smtp_relay
 
   db:
     image: postgres:${postgres_version:-14}
@@ -61,3 +62,6 @@ networks:
   webproxy:
     external:
       name: webproxy
+  smtp_relay:
+    external:
+      name: smtp_relay
