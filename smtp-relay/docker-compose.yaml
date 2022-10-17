@@ -2,6 +2,7 @@ version: '3'
 services:
   postfix:
     image: boky/postfix
+    restart: unless-stopped
     environment:
       - RELAYHOST=${RELAYHOST}
       - RELAYHOST_USERNAME=${RELAYHOST_USERNAME}
