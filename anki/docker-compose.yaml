@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  anki:
+    image: harbor.jfreudenberger.de:8443/anki/sync
+    restart: unless-stopped
+    volumes:
+      - anki-data:/data
+    environment:
+      - VIRTUAL_HOST=anki.jfreudenberger.de
+      - VIRTUAL_PORT=27701
+      - LETSENCRYPT_HOST=anki.jfreudenberger.de
+    networks:
+      - webproxy
+
+volumes:
+  anki-data:
+
+networks:
+  webproxy:
+    external: true
+    name: webproxy
