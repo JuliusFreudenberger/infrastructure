@@ -2,10 +2,10 @@ version: '3'
 
 services:
   anki:
-    image: harbor.jfreudenberger.de:8443/anki/sync
+    image: ankicommunity/anki-sync-server-rs:${sync_server_version:-latest}
     restart: unless-stopped
     volumes:
-      - anki-data:/data
+      - anki-data:/app
     environment:
       - VIRTUAL_HOST=anki.jfreudenberger.de
       - VIRTUAL_PORT=27701
