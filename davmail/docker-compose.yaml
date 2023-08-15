@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  davmail:
+    image: kran0/davmail-docker:${DAVMAIL_VERSION:-latest}
+    restart: always
+    ports:
+      - 1080:1080
+      - 1143:1143
+      - 1389:1389
+      - 1025:1025
+    volumes:
+      - certs:/certs
+    environment:
+      - DAVMAIL_MODE=${DAVMAIL_MODE}
+      - DAVMAIL_URL=${DAVMAIL_URL}
+      - DAVMAIL_SERVER=true
+      - DAVMAIL_CALDAVPORT=1080
+      - DAVMAIL_IMAPPORT=1143
+      - DAVMAIL_LDAPPORT=1389
+      - DAVMAIL_SMTPPORT=1025
+      - DAVMAIL_ALLOWREMOTE=true
+      - DAVMAIL_DISABLEUPDATECHECK=true
+      - DAVMAIL_LOGFILEPATH=/dev/stdout
+      - DAVMAIL_SSL_KEYSTORETYPE=PKCS12
+      - DAVMAIL_SSL_KEYSTOREFILE=${KEYSTOREFILE}
+      - DAVMAIL_SSL_KEYSTOREPASS=${KEYPASS}
+      - DAVMAIL_SSL_KEYPASS=${KEYPASS}
+
+
+volumes:
+  certs:
