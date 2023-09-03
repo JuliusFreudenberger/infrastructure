@@ -11,16 +11,14 @@ services:
       - APP_KEY=${APP_KEY:-SomeRandomStringOf32CharsExactly}
       - MAIL_PASSWORD=${MAIL_PASSWORD:-null}
       - STATIC_CRON_TOKEN=${STATIC_CRON_TOKEN:-SomeRandomStringOf32CharsExactly}
-      - VIRTUAL_HOST=firefly.jfreudenberger.de # the domain where the service should be reached
-      - VIRTUAL_PORT=8080 # the port the service listens in the container
-      - LETSENCRYPT_HOST=firefly.jfreudenberger.de # the same domain as VIRTUAL_HOST; this enables ssl
     depends_on:
       - db
     networks:
       - firefly
       - db
-      - webproxy
       - smtp_relay
+    ports:
+      - 127.0.0.1:8081:8080
 
   db:
     image: postgres:${postgres_version:-14}
@@ -59,9 +57,6 @@ volumes:
 networks:
   firefly:
   db:
-  webproxy:
-    external:
-      name: webproxy
   smtp_relay:
     external:
       name: smtp_relay
