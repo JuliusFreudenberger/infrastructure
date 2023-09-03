@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     volumes:
       - firefly_iii_upload:/var/www/html/storage/upload
-    env_file: stack.env
+    env_file: ../stack.env
     environment:
       - APP_KEY=${APP_KEY:-SomeRandomStringOf32CharsExactly}
       - MAIL_PASSWORD=${MAIL_PASSWORD:-null}
