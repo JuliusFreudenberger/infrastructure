@@ -37,7 +37,7 @@ services:
       - VIRTUAL_PORT=8008 # the port the service listens in the container
       - LETSENCRYPT_HOST=syncv3.matrix.jfreudenberger.de # the same domain as VIRTUAL_HOST; this enables ssl
       - SYNCV3_SERVER=https://matrix.jfreudenberger.de
-      - SYNCV3_DB=postgresql://sliding:sliding@sliding-db:5432/sliding?sslmode=prefer
+      - SYNCV3_DB=postgresql://sliding:sliding@sliding-db:5432/sliding?sslmode=disable
       - SYNCV3_SECRET=${sliding_sync_secret}
     networks:
       - slidingnet
