@@ -10,6 +10,7 @@ services:
       - VIRTUAL_HOST=anki.jfreudenberger.de
       - VIRTUAL_PORT=8080
       - LETSENCRYPT_HOST=anki.jfreudenberger.de
+      - SYNC_USER1=$SYNC_USER1
     networks:
       - webproxy
 
