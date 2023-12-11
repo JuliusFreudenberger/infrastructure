@@ -2,13 +2,13 @@ version: '3'
 
 services:
   anki:
-    image: ankicommunity/anki-sync-server-rs:${sync_server_version:-latest}
+    image: harbor.jfreudenberger.de:8443/anki/sync:${sync_server_version:-latest}
     restart: unless-stopped
     volumes:
-      - anki-data:/app
+      - anki-data:/root/.syncserver
     environment:
       - VIRTUAL_HOST=anki.jfreudenberger.de
-      - VIRTUAL_PORT=27701
+      - VIRTUAL_PORT=8080
       - LETSENCRYPT_HOST=anki.jfreudenberger.de
     networks:
       - webproxy
