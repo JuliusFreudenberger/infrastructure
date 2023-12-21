@@ -12,6 +12,7 @@ services:
       - certs:/etc/nginx/certs
       - vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
+      - htpasswd:/etc/nginx/htpasswd
     networks:
       - webproxy
 
@@ -51,6 +52,7 @@ volumes:
   vhost:
   html:
   acme:
+  htpasswd:
 
 networks:
   webproxy:
