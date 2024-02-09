@@ -8,3 +8,4 @@ Several environment variables have to be set:
 - postgres_version
 Paperless specific:
 - PAPERLESS_SECRET_KEY: A random string
+- PAPERLESS_URL: The URL of the paperless instance (used for CSRF, CORS)
