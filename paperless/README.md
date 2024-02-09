@@ -9,3 +9,4 @@ Several environment variables have to be set:
 Paperless specific:
 - PAPERLESS_SECRET_KEY: A random string
 - PAPERLESS_URL: The URL of the paperless instance (used for CSRF, CORS)
+- PAPERLESS_LOGOUT_REDIRECT_URL: The URL for logging out of SSO
