@@ -6,3 +6,4 @@
 | 8000 | portainer              |
 | 8080 | firefly-fints-importer |
 | 8081 | scrutiny               |
+| 8082 | paperless              |
