@@ -2,7 +2,7 @@ version: "3"
 
 services:
   gitea:
-    image: gitea/gitea:${gitea_version:-latest}
+    image: codeberg.org/forgejo/forgejo:${gitea_version:-latest}
     restart: unless-stopped
     environment:
       - USER_UID=1000
