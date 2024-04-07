@@ -14,12 +14,6 @@ services:
     - default
     - synapsenet
 
-  signald:
-    container_name: signald
-    image: docker.io/signald/signald
-    restart: unless-stopped
-    volumes: 
-    - signald_data:/signald
   db:
     image: postgres:${postgres_version:-13-alpine}
     restart: unless-stopped
@@ -32,7 +26,6 @@ services:
 
 volumes:
   bridge_data:
-  signald_data:
   postgres_data:
 
 networks:
