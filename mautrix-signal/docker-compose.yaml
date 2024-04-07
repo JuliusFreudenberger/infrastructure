@@ -7,7 +7,6 @@ services:
     restart: unless-stopped
     volumes:
     - bridge_data:/data
-    - signald_data:/signald
     networks:
     - default
     - synapsenet
