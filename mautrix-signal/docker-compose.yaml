@@ -8,8 +8,6 @@ services:
     volumes:
     - bridge_data:/data
     - signald_data:/signald
-    depends_on:
-    - signald
     networks:
     - default
     - synapsenet
