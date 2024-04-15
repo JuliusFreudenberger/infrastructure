@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:${jellyfin_version:-latest}
+    restart: unless-stopped
+    volumes:
+      - /media/Filme:/media
+      - jellyfin-config:/config
+      - jellyfin-cache:/cache
+    devices:
+      - /dev/dri/:/dev/dri
+    environment:
+      - VIRTUAL_HOST=jellyfin.jfreudenberger.de
+      - VIRTUAL_PORT=8096
+      - LETSENCRYPT_HOST=jellyfin.jfreudenberger.de
+      - JELLYFIN_PublishedServerUrl=https://jellyfin.jfreudenberger.de
+    networks:
+      - webproxy
+
+volumes:
+  jellyfin-config:
+  jellyfin-cache:
+
+networks:
+  webproxy:
+    external: true
+    name: webproxy
