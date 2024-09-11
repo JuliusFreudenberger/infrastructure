@@ -37,7 +37,7 @@ services:
       - MONGO_AUTHSOURCE=admin
     volumes:
       - mongo_data:/data/db
-      - /path/to/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
+      # - /path/to/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
     networks:
       - unifi_db
     restart: unless-stopped
