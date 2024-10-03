@@ -3,7 +3,7 @@ version: "3.7"
 services:
   mautrix-signal:
     container_name: mautrix-signal
-    image: dock.mau.dev/mautrix/signal
+    image: dock.mau.dev/mautrix/signal:${bridge_version:-13-alpine}
     restart: unless-stopped
     volumes:
     - bridge_data:/data
