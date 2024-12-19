@@ -29,36 +29,9 @@ services:
     networks:
       - server
 
-  sliding-sync-proxy:
-    image: ghcr.io/matrix-org/sliding-sync:${sliding_sync_version:-latest}
-    restart: unless-stopped
-    environment:
-      - VIRTUAL_HOST=syncv3.matrix.jfreudenberger.de # the domain where the service should be reached
-      - VIRTUAL_PORT=8008 # the port the service listens in the container
-      - LETSENCRYPT_HOST=syncv3.matrix.jfreudenberger.de # the same domain as VIRTUAL_HOST; this enables ssl
-      - SYNCV3_SERVER=https://matrix.jfreudenberger.de
-      - SYNCV3_DB=postgresql://sliding:sliding@sliding-db:5432/sliding?sslmode=disable
-      - SYNCV3_SECRET=${sliding_sync_secret}
-    networks:
-      - slidingnet
-      - webproxy
-
-  sliding-db:
-    image: postgres:${postgres_version:-13}
-    restart: unless-stopped
-    environment:
-      - POSTGRES_PASSWORD=sliding
-      - POSTGRES_USER=sliding
-      - POSTGRES_DB=sliding
-    volumes:
-      - sliding_postgres_data:/var/lib/postgresql/data
-    networks:
-      - slidingnet
-
 volumes:
   custom_modules:
   postgres_data:
-  sliding_postgres_data:
 
 networks:
   server:
@@ -67,5 +40,3 @@ networks:
     external: true
   synapsenet:
     name: synapsenet
-  slidingnet:
-    name: slidingnet
