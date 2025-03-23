@@ -29,6 +29,7 @@ services:
       - GITEA__mailer__USER=${MAILER_USER}
       - GITEA__mailer__PASSWD=${MAILER_PASSWD}
       - GITEA__actions__ENABLED=${ACTIONS_ENABLED}
+      - GITEA__other__SHOW_FOOTER_VERSION=${SHOW_FOOTER_VERSION:-false}
       - VIRTUAL_HOST=git.jfreudenberger.de
       - VIRTUAL_PORT=3000
       - LETSENCRYPT_HOST=git.jfreudenberger.de
