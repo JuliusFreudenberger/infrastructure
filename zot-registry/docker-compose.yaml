@@ -16,6 +16,7 @@ services:
 
 volumes:
   registry-data:
+  registry-config:
 
 networks:
   webproxy:
