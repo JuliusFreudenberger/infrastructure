@@ -4,6 +4,7 @@ services:
   zot:
     image: ghcr.io/project-zot/zot:${zot_version:-latest}
     restart: unless-stopped
+    command: serve /etc/zot/config.yaml
     environment:
       - VIRTUAL_HOST=zot.jfreudenberger.de
       - VIRTUAL_PORT=5000
