@@ -1,0 +1,46 @@
+http:
+  accessControl:
+    adminPolicy:
+      actions:
+      - read
+      - create
+      - update
+      - delete
+      users:
+      - <admin>
+    repositories:
+      '**':
+        defaultPolicy:
+        - read
+  address: 0.0.0.0
+  auth:
+    openid:
+      providers:
+        oidc:
+          clientid: <client_id>
+          clientsecret: <client_secret>
+          issuer: https://git.jfreudenberger.de/
+          name: Forgejo
+          scopes:
+          - openid
+          - profile
+          - email
+          - groups
+  compat:
+  - docker2s2
+  externalUrl: https://zot.jfreudenberger.de
+  port: "5000"
+log:
+  level: info
+storage:
+  dedupe: true
+  gc: true
+  rootDirectory: /var/lib/registry
+extensions:
+  scrub:
+    enable: true
+    interval: 24h
+  search:
+    enable: true
+  ui:
+    enable: true
