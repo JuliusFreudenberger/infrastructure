@@ -30,7 +30,7 @@ services:
       - webproxy
       - database
       - onlyoffice
-      - redis
+      - valkey
       - smtp_relay
       
   onlyoffice:
@@ -49,16 +49,16 @@ services:
       - onlyoffice
       - webproxy
 
-  redis:
-    image: redis:${redis_version:-latest}
+  valkey:
+    image: valkey/valkey:${valkey_version:-latest}
     restart: unless-stopped
     networks:
-      - redis
+      - valkey
 
 networks:
   database:
   onlyoffice:
-  redis:
+  valkey:
   webproxy:
    external: true
    name: webproxy
