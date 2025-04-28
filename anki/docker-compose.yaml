@@ -2,7 +2,7 @@ version: '3'
 
 services:
   anki:
-    image: harbor.jfreudenberger.de:8443/anki/sync:${sync_server_version:-latest}
+    image: zot.jfreudenberger.de/anki/sync:${sync_server_version:-latest}
     restart: unless-stopped
     volumes:
       - anki-data:/root/.syncserver
