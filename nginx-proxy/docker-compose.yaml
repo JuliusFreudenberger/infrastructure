@@ -2,7 +2,7 @@ version: '2.1'
 services:
   nginx:
     image: nginx
-    container_name: proxy_nginx
+    container_name: nginx
     restart: unless-stopped
     ports:
       - "80:80"
