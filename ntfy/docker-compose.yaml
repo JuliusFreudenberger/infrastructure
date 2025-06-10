@@ -1,0 +1,35 @@
+version: "3"
+services:
+  server:
+    image: binwiederhier/ntfy:${ntfy_version:-latest}
+    restart: unless-stopped
+    command: serve
+    environment:
+      NTFY_BASE_URL: https://ntfy.jfreudenberger.de
+      NTFY_CACHE_FILE: /var/lib/ntfy/cache.db
+      NTFY_AUTH_FILE: /var/lib/ntfy/auth.db
+      NTFY_AUTH_DEFAULT_ACCESS: deny-all
+      NTFY_BEHIND_PROXY: true
+      NTFY_ENABLE_LOGIN: true
+      NTFY_WEB_ROOT: disable
+      VIRTUAL_HOST: ntfy.jfreudenberger.de
+      VIRTUAL_PORT: 80
+      LETSENCRYPT_HOST: ntfy.jfreudenberger.de
+    volumes:
+      - ntfy_data:/var/lib/ntfy
+    networks:
+      - webproxy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --tries=1 http://localhost:80/v1/health -O - | grep -Eo '\"healthy\"\\s*:\\s*true' || exit 1"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  webproxy:
+    external: true
+    name: webproxy
+
+volumes:
+  ntfy_data:
