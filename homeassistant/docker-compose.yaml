@@ -12,5 +12,14 @@ services:
     privileged: true
     network_mode: host
 
+  matter-server:
+    image: ghcr.io/home-assistant-libs/python-matter-server:${matter_version:-stable}
+    restart: unless-stopped
+    volumes:
+      - matter_data:/data:rw
+      - /run/dbus:/run/dbus:ro
+    network_mode: host
+
 volumes:
   hass_config:
+  matter_data:
