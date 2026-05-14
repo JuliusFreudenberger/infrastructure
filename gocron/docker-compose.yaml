@@ -1,0 +1,11 @@
+services:
+  gocron:
+    image: ghcr.io/flohoss/gocron:v0.9.13@sha256:89db513849e4fa65e7376c18d28f11c9f84ec2a3c51b6cdec16b447e5e39c8ec
+    restart: unless-stopped
+    volumes:
+      - ${DIRECTORY}/config:/app/config/
+      - ${DIRECTORY}/.resticpwd:/secrets/.resticpwd
+      - ${DIRECTORY}/.rclone.conf:/root/.config/rclone/rclone.conf
+      - ${DATA_MOUNT}
+   ports:
+      - "8156:8156"
