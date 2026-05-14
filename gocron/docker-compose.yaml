@@ -7,5 +7,5 @@ services:
       - ${DIRECTORY}/.resticpwd:/secrets/.resticpwd
       - ${DIRECTORY}/.rclone.conf:/root/.config/rclone/rclone.conf
       - ${DATA_MOUNT}
-   ports:
+    ports:
       - "8156:8156"
