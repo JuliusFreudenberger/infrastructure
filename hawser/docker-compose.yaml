@@ -4,5 +4,5 @@ services:
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${HAWSER_STACKS:-/opt/hawser-stacks}:${HAWSER_STACKS:-/opt/hawser-stacks}
+      - ${STACKS_DIR:-/opt/hawser-stacks}:${STACKS_DIR:-/opt/hawser-stacks}
     env_file: .env
