@@ -15,7 +15,7 @@ services:
       - /var/lib/journal
       - /var/opt/unifi/tmp:size=64m
     environment:
-      - UOS_SYSTEM_IP=xcy:8080
+      - UOS_SYSTEM_IP=${system-ip}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
       - ${DATA_DIR}/persistent:/persistent
