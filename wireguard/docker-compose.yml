@@ -1,0 +1,26 @@
+services:
+  wireguard:
+    image: lscr.io/linuxserver/wireguard@sha256:b4fdb5b5bbbdcd6c7a4433c8fe98b0b00bf8684c62542571a705543ac4a8e75c
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+      - SERVERURL=$SERVERURL
+      - SERVERPORT=${SERVERPORT:-51820}
+      - PEERS=${PEERS}
+      - PEERDNS=${PEERDNS}
+      - INTERNAL_SUBNET=${INTERNAL_SUBNET:-10.13.13.0}
+      - ALLOWEDIPS=${ALLOWEDIPS:-0.0.0.0/0}
+    volumes:
+      - config:/config
+      - /lib/modules:/lib/modules
+    ports:
+      - ${SERVERPORT:-51820}:${SERVERPORT:-51820}/udp
+    restart: unless-stopped
+
+volumes:
+  config:
