@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   app:
-    image: fireflyiii/core:${firefly_version:-latest}
+    image: fireflyiii/core:version-6.6.2@sha256:783676cad3a9aed58539ae270d6849f15abefc4300175f1526b3f46b74ad96ce
     restart: unless-stopped
     volumes:
       - firefly_iii_upload:/var/www/html/storage/upload
@@ -21,7 +21,7 @@ services:
       - 127.0.0.1:8081:8080
 
   db:
-    image: postgres:${postgres_version:-14}
+    image: postgres:14@sha256:04a3d3d1475ad37f07d8219d0e5eb46f64ac132bf6e110c772dab45e12e4a919
     restart: unless-stopped
     environment:
       - POSTGRES_USER=firefly
@@ -33,14 +33,14 @@ services:
       - db
 
   cron:
-    image: alpine
+    image: alpine:3.22.4@sha256:310c62b5e7ca5b08167e4384c68db0fd2905dd9c7493756d356e893909057601
     restart: unless-stopped
     command: sh -c "echo \"0 3 * * * wget -qO- http://app:8080/api/v1/cron/${STATIC_CRON_TOKEN:-SomeRandomStringOf32CharsExactly}\" | crontab - && crond -f -L /dev/stdout"
     networks:
       - firefly
 
   fints-importer:
-    image: benkl/firefly-iii-fints-importer
+    image: benkl/firefly-iii-fints-importer:2026-03-18@sha256:92a5aaa09822ab62eb90d516165291b6be6281fc69625543f87a11c0909d2e15
     restart: unless-stopped
     volumes:
       - importer-configurations:/app/configurations
@@ -51,8 +51,21 @@ services:
 
 volumes:
   firefly_iii_upload:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=${NFS_SERVER},nfsvers=4.1,soft,noatime
+      device: ${NFS_PATH_UPLOAD}
   firefly_iii_db:
+    driver_opts:
+      type: nfs
+      o: addr=${NFS_SERVER},nfsvers=4.1,soft,noatime
+      device: ${NFS_PATH_DB}
   importer-configurations:
+    driver_opts:
+      type: nfs
+      o: addr=${NFS_SERVER},nfsvers=4.1,soft,noatime
+      device: ${NFS_PATH_IMPORT_CONFIGURATIONS}
 
 networks:
   firefly:
