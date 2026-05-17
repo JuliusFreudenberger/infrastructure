@@ -17,8 +17,7 @@ services:
       - firefly
       - db
       - smtp_relay
-    ports:
-      - 127.0.0.1:8081:8080
+      - webproxy
 
   db:
     image: postgres:14@sha256:04a3d3d1475ad37f07d8219d0e5eb46f64ac132bf6e110c772dab45e12e4a919
@@ -44,10 +43,9 @@ services:
     restart: unless-stopped
     volumes:
       - importer-configurations:/app/configurations
-    ports:
-      - 127.0.0.1:8083:8080
     networks:
       - firefly
+      - webproxy
 
 volumes:
   firefly_iii_upload:
@@ -71,5 +69,6 @@ networks:
   firefly:
   db:
   smtp_relay:
-    external:
-      name: smtp_relay
+    external: true
+  webproxy:
+    external: true
