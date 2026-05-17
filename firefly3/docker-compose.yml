@@ -57,7 +57,7 @@ volumes:
   firefly_iii_db:
     driver_opts:
       type: nfs
-      o: addr=${NFS_SERVER},nfsvers=4.1,soft,noatime
+      o: addr=${NFS_SERVER},nfsvers=4.1,hard,noatime
       device: ${NFS_PATH_DB}
   importer-configurations:
     driver_opts:
