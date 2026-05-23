@@ -15,6 +15,9 @@ services:
     restart: always
     healthcheck:
       disable: false
+    networks:
+      - net
+      - webproxy
 
   immich-machine-learning:
     container_name: immich_machine_learning
@@ -26,6 +29,8 @@ services:
     restart: always
     healthcheck:
       disable: false
+    networks:
+      - net
 
   redis:
     container_name: immich_redis
@@ -33,6 +38,8 @@ services:
     healthcheck:
       test: redis-cli ping || exit 1
     restart: always
+    networks:
+      - net
 
   database:
     container_name: immich_postgres
@@ -49,6 +56,8 @@ services:
     restart: always
     healthcheck:
       disable: false
+    networks:
+      - net
 
 volumes:
   model-cache:
@@ -64,3 +73,9 @@ volumes:
       type: nfs
       o: addr=${NFS_SERVER},nfsvers=4.1,hard,noatime
       device: ${NFS_PATH_DATABASE}
+
+networks:
+  webproxy:
+    external: true
+    name: webproxy
+  net:
