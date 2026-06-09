@@ -1,14 +1,18 @@
 version: "3.4"
 services:
   broker:
-    image: docker.io/library/redis:7
+    image: docker.io/library/redis:8.8.0-alpine3.23@sha256:09160599abd229764c0fb44cb6be640294e1d360a54b19985ab4843dcf2d90f1
     restart: unless-stopped
+    networks:
+      - broker
     volumes:
       - redisdata:/data
 
   db:
-    image: docker.io/library/postgres:${postgres_version:-15}
+    image: docker.io/library/postgres:15.18@sha256:1b92e7a80c021647bf70f5d3eb66066a998e4f5cf43c07bb9dc9f729782cf88e
     restart: unless-stopped
+    networks:
+      - db
     volumes:
       - pgdata:/var/lib/postgresql/data
     environment:
@@ -17,18 +21,19 @@ services:
       POSTGRES_PASSWORD: paperless
 
   webserver:
-    image: ghcr.io/paperless-ngx/paperless-ngx:${paperless_version:-latest}
+    image: ghcr.io/paperless-ngx/paperless-ngx:2.20.15@sha256:6c86cad803970ea782683a8e80e7403444c5bf3cf70de63b4d3c8e87500db92f
     restart: unless-stopped
     depends_on:
       - db
       - broker
-    ports:
-      - "127.0.0.1:8082:8000"
+    networks:
+      - db
+      - broker
     volumes:
-      - /media/paperless/data:/usr/src/paperless/data
-      - /media/paperless/media:/usr/src/paperless/media
-      - /media/paperless/export:/usr/src/paperless/export
-      - /media/paperless/consume:/usr/src/paperless/consume
+      - data:/usr/src/paperless/data
+      - media:/usr/src/paperless/media
+      - export:/usr/src/paperless/export
+      - consume:/usr/src/paperless/consume
     environment:
       PAPERLESS_REDIS: redis://broker:6379
       PAPERLESS_DBHOST: db
@@ -41,6 +46,40 @@ services:
       PAPERLESS_SOCIALACCOUNT_PROVIDERS: '{"openid_connect":{"SCOPE":["openid","profile","email"],"OAUTH_PKCE_ENABLED":true,"APPS":[{"provider_id":"pocket-id","name":"Pocket-ID","client_id":"${PAPERLESS_OIDC_CLIENT_ID}","secret":"${PAPERLESS_OIDC_CLIENT_SECRET}","settings":{"server_url":"${PAPERLESS_OIDC_SERVER_URL}"}}]}}'
       PAPERLESS_ACCOUNT_DEFAULT_HTTP_PROTOCOL: ${PAPERLESS_ACCOUNT_DEFAULT_HTTP_PROTOCOL:-https}
 
+networks:
+  db:
+  broker:
+  webproxy:
+    external: true
+
 volumes:
   redisdata:
+    driver_opts:
+      type: nfs
+      o: addr=${NFS_SERVER},nfsvers=4.1,hard,noatime
+      device: ${NFS_PATH_REDIS}
   pgdata:
+    driver_opts:
+      type: nfs
+      o: addr=${NFS_SERVER},nfsvers=4.1,hard,noatime
+      device: ${NFS_PATH_DB}
+  data:
+    driver_opts:
+      type: nfs
+      o: addr=${NFS_SERVER},nfsvers=4.1,soft,noatime
+      device: ${NFS_PATH_DATA}
+  media:
+    driver_opts:
+      type: nfs
+      o: addr=${NFS_SERVER},nfsvers=4.1,soft,noatime
+      device: ${NFS_PATH_MEDIA}
+  export:
+    driver_opts:
+      type: nfs
+      o: addr=${NFS_SERVER},nfsvers=4.1,soft,noatime
+      device: ${NFS_PATH_EXPORT}
+  consume:
+    driver_opts:
+      type: nfs
+      o: addr=${NFS_SERVER},nfsvers=4.1,soft,noatime
+      device: ${NFS_PATH_CONSUME}
