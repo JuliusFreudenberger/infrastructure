@@ -29,6 +29,7 @@ services:
     networks:
       - db
       - broker
+      - webproxy
     volumes:
       - data:/usr/src/paperless/data
       - media:/usr/src/paperless/media
