@@ -69,7 +69,7 @@ volumes:
       device: ${NFS_PATH_DATABASE}
 
 networks:
-  gitea:
+  forgejo:
   webproxy:
     external: true
     name: webproxy
