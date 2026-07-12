@@ -42,7 +42,7 @@ services:
       - smtp_relay
 
   db:
-    image: mariadb:10.7@sha256:895b6c8829c35f8081afd5229fe4a2e179a646fd96b807e5fb784cd09fd2483b
+    image: mariadb:10.7@sha256:9a48ac9f196f3d4fd6fea2cab59a49df9e7ca459bf14b2f7b85a0e38a5454571
     restart: unless-stopped
     environment:
       - MARIADB_ROOT_PASSWORD=gitea
