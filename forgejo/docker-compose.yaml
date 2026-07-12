@@ -2,7 +2,7 @@ version: "3"
 
 services:
   gitea:
-    image: codeberg.org/forgejo/forgejo:11.0.14@sha256:043ffb2f8a33e1c5d811993cf956ca17a918e9cdb1d225cf8028160c3914c40f
+    image: codeberg.org/forgejo/forgejo:11.0.14@sha256:afb609f099fdfc85aed99fa763604102cfc6525b78b3637382b2ac48d9d80f7c
     restart: unless-stopped
     environment:
       - USER_UID=1000
