@@ -2,53 +2,47 @@ version: "3"
 
 services:
   gitea:
-    image: codeberg.org/forgejo/forgejo:${gitea_version:-latest}
+    image: codeberg.org/forgejo/forgejo:11.0.14@sha256:043ffb2f8a33e1c5d811993cf956ca17a918e9cdb1d225cf8028160c3914c40f
     restart: unless-stopped
     environment:
       - USER_UID=1000
       - USER_GID=1000
-      - GITEA__database__DB_TYPE=mysql
-      - GITEA__database__HOST=db:3306
-      - GITEA__database__NAME=gitea
-      - GITEA__database__USER=gitea
-      - GITEA__database__PASSWD=gitea
-      - GITEA__server__DOMAIN=git.jfreudenberger.de
-      - GITEA__server__SSH_DOMAIN=git.jfreudenberger.de
-      - GITEA__server__ROOT_URL=https://git.jfreudenberger.de
-      - GITEA__server__LFS_JWT_SECRET=${LFS_JWT_SECRET}
-      - GITEA__security__SECRET_KEY=${SECRET_KEY}
-      - GITEA__security__INTERNAL_TOKEN=${INTERNAL_TOKEN}
-      - GITEA__security__INSTALL_LOCK=${INSTALL_LOCK:-true}
-      - GITEA__service__DISABLE_REGISTRATION=${DISABLE_REGISTRATION:-true}
-      - GITEA__service__NO_REPLY_ADDRESS=${NO_REPLY_ADDRESS:-noreply@jfreudenberger.de}
-      - GITEA__oauth2__JWT_SECRET=${OAUTH_JWT_SECRET}
-      - GITEA__mailer__ENABLED=${MAILER_ENABLED:-false}
-      - GITEA__mailer__SMTP_ADDR=${SMTP_ADDR}
-      - GITEA__mailer__SMTP_PORT=${SMTP_PORT}
-      - GITEA__mailer__FROM=${MAILER_FROM}
-      - GITEA__mailer__USER=${MAILER_USER}
-      - GITEA__mailer__PASSWD=${MAILER_PASSWD}
-      - GITEA__actions__ENABLED=${ACTIONS_ENABLED}
-      - GITEA__other__SHOW_FOOTER_VERSION=${SHOW_FOOTER_VERSION:-false}
-      - VIRTUAL_HOST=git.jfreudenberger.de
-      - VIRTUAL_PORT=3000
-      - LETSENCRYPT_HOST=git.jfreudenberger.de
+      - FORGEJO__database__DB_TYPE=mysql
+      - FORGEJO__database__HOST=db:3306
+      - FORGEJO__database__NAME=gitea
+      - FORGEJO__database__USER=gitea
+      - FORGEJO__database__PASSWD=gitea
+      - FORGEJO__server__DOMAIN=git.jfreudenberger.de
+      - FORGEJO__server__SSH_DOMAIN=git.jfreudenberger.de
+      - FORGEJO__server__ROOT_URL=https://git.jfreudenberger.de
+      - FORGEJO__server__LFS_JWT_SECRET=${LFS_JWT_SECRET}
+      - FORGEJO__security__SECRET_KEY=${SECRET_KEY}
+      - FORGEJO__security__INTERNAL_TOKEN=${INTERNAL_TOKEN}
+      - FORGEJO__security__INSTALL_LOCK=${INSTALL_LOCK:-true}
+      - FORGEJO__service__DISABLE_REGISTRATION=${DISABLE_REGISTRATION:-true}
+      - FORGEJO__service__NO_REPLY_ADDRESS=${NO_REPLY_ADDRESS:-noreply@jfreudenberger.de}
+      - FORGEJO__oauth2__JWT_SECRET=${OAUTH_JWT_SECRET}
+      - FORGEJO__mailer__ENABLED=${MAILER_ENABLED:-false}
+      - FORGEJO__mailer__SMTP_ADDR=${SMTP_ADDR}
+      - FORGEJO__mailer__SMTP_PORT=${SMTP_PORT}
+      - FORGEJO__mailer__FROM=${MAILER_FROM}
+      - FORGEJO__mailer__USER=${MAILER_USER}
+      - FORGEJO__mailer__PASSWD=${MAILER_PASSWD}
+      - FORGEJO__actions__ENABLED=${ACTIONS_ENABLED}
+      - FORGEJO__other__SHOW_FOOTER_VERSION=${SHOW_FOOTER_VERSION:-false}
     volumes:
       - gitea-data:/data
-      - gitea-backup:/backup
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-    ports:
-      - "222:22"
     depends_on:
       - db
     networks:
-      - gitea
+      - forgejo
       - webproxy
       - smtp_relay
 
   db:
-    image: mariadb:${mariadb_version:-10.7}
+    image: mariadb:10.7@sha256:895b6c8829c35f8081afd5229fe4a2e179a646fd96b807e5fb784cd09fd2483b
     restart: unless-stopped
     environment:
       - MARIADB_ROOT_PASSWORD=gitea
@@ -58,12 +52,21 @@ services:
     volumes:
       - mariadb-data:/var/lib/mysql
     networks:
-      - gitea
+      - forgejo
 
 volumes:
   gitea-data:
-  gitea-backup:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=${NFS_SERVER},nfsvers=4.1,soft,noatime,sync
+      device: ${NFS_PATH_DATA}
   mariadb-data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=${NFS_SERVER},nfsvers=4.1,hard,noatime
+      device: ${NFS_PATH_DATABASE}
 
 networks:
   gitea:
