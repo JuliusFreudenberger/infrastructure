@@ -13,7 +13,8 @@ services:
       - FORGEJO__database__USER=forgejo
       - FORGEJO__database__PASSWD=forgejo
       - FORGEJO__server__DOMAIN=git.jfreudenberger.de
-      - FORGEJO__server__SSH_DOMAIN=git.jfreudenberger.de
+      - FORGEJO__server__SSH_DOMAIN=forgejo.jfreudenberger.de
+      - FORGEJO__server__SSH_PORT=222
       - FORGEJO__server__ROOT_URL=https://git.jfreudenberger.de
       - FORGEJO__server__LFS_JWT_SECRET=${LFS_JWT_SECRET}
       - FORGEJO__security__SECRET_KEY=${SECRET_KEY}
