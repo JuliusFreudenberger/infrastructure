@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  gitea:
+  forgejo:
     image: codeberg.org/forgejo/forgejo:11.0.14@sha256:afb609f099fdfc85aed99fa763604102cfc6525b78b3637382b2ac48d9d80f7c
     restart: unless-stopped
     environment:
@@ -9,9 +9,9 @@ services:
       - USER_GID=1000
       - FORGEJO__database__DB_TYPE=mysql
       - FORGEJO__database__HOST=db:3306
-      - FORGEJO__database__NAME=gitea
-      - FORGEJO__database__USER=gitea
-      - FORGEJO__database__PASSWD=gitea
+      - FORGEJO__database__NAME=forgejo
+      - FORGEJO__database__USER=forgejo
+      - FORGEJO__database__PASSWD=forgejo
       - FORGEJO__server__DOMAIN=git.jfreudenberger.de
       - FORGEJO__server__SSH_DOMAIN=git.jfreudenberger.de
       - FORGEJO__server__ROOT_URL=https://git.jfreudenberger.de
@@ -31,7 +31,7 @@ services:
       - FORGEJO__actions__ENABLED=${ACTIONS_ENABLED}
       - FORGEJO__other__SHOW_FOOTER_VERSION=${SHOW_FOOTER_VERSION:-false}
     volumes:
-      - gitea-data:/data
+      - forgejo-data:/data
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     depends_on:
@@ -45,17 +45,17 @@ services:
     image: mariadb:10.7@sha256:9a48ac9f196f3d4fd6fea2cab59a49df9e7ca459bf14b2f7b85a0e38a5454571
     restart: unless-stopped
     environment:
-      - MARIADB_ROOT_PASSWORD=gitea
-      - MARIADB_USER=gitea
-      - MARIADB_PASSWORD=gitea
-      - MARIADB_DATABASE=gitea
+      - MARIADB_ROOT_PASSWORD=forgejo
+      - MARIADB_USER=forgejo
+      - MARIADB_PASSWORD=forgejo
+      - MARIADB_DATABASE=forgejo
     volumes:
       - mariadb-data:/var/lib/mysql
     networks:
       - forgejo
 
 volumes:
-  gitea-data:
+  forgejo-data:
     driver: local
     driver_opts:
       type: nfs
