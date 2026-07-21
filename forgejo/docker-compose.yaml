@@ -2,7 +2,7 @@ version: "3"
 
 services:
   forgejo:
-    image: codeberg.org/forgejo/forgejo:11.0.14@sha256:afb609f099fdfc85aed99fa763604102cfc6525b78b3637382b2ac48d9d80f7c
+    image: codeberg.org/forgejo/forgejo:15.0.5@sha256:eda2e378442d2f18cfa563994f8ad66e71f04ac9c3bb4259cc57bdd641890f5c
     restart: unless-stopped
     environment:
       - USER_UID=1000
