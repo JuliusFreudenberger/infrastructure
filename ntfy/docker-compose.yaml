@@ -1,7 +1,7 @@
 version: "3"
 services:
   server:
-    image: binwiederhier/ntfy:${ntfy_version:-latest}
+    image: binwiederhier/ntfy:v2.17.0@sha256:4768ca4ed07bf5ba0331f333bfccc541ba1594ed7fa5a7b0245763a581809344
     restart: unless-stopped
     command: serve
     environment:
@@ -12,9 +12,6 @@ services:
       NTFY_BEHIND_PROXY: true
       NTFY_ENABLE_LOGIN: true
       NTFY_WEB_ROOT: disable
-      VIRTUAL_HOST: ntfy.jfreudenberger.de
-      VIRTUAL_PORT: 80
-      LETSENCRYPT_HOST: ntfy.jfreudenberger.de
     volumes:
       - ntfy_data:/var/lib/ntfy
     networks:
