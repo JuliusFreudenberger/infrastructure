@@ -1,7 +1,7 @@
 version: '3.5'
 services:
   healthchecks:
-    image: ghcr.io/linuxserver/healthchecks:${healthchecks_version:-latest}
+    image: ghcr.io/linuxserver/healthchecks:version-v4.3@sha256:f8a148973d8b90587549674db70836f154eda474c0b87382b86064f2442c2f43
     container_name: healthchecks
     restart: unless-stopped
     environment:
@@ -25,9 +25,6 @@ services:
       - REGISTRATION_OPEN=${REGISTRATION_OPEN:-False}
       - SECRET_KEY=${SECRET_KEY}
       - DEBUG=${DEBUG:-False}
-      - VIRTUAL_HOST=health.jfreudenberger.de
-      - VIRTUAL_PORT=8000
-      - LETSENCRYPT_HOST=health.jfreudenberger.de
     volumes:
       - config:/config
     networks:
