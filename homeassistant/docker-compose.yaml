@@ -47,9 +47,22 @@ services:
     ports:
       - 127.0.0.1:10200:10200
 
+  emhass:
+    container_name: emhass
+    image: ghcr.io/davidusb-geek/emhass:v0.18.1@sha256:c4b436a58ee0a01aa53ebbfa6b324cddbbd108ea70a7c29c74aebdafddbc6d6c
+    volumes:
+      - emhass_data:/share
+    environment:
+      - SECRETS_PATH=/share/secrets_emhass.yaml
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - 5000:5000
+
 volumes:
   hass_config:
   matter_data:
   phrase_models:
   phrase_train:
   piper_data:
+  emhass_data:
