@@ -1,0 +1,32 @@
+services:
+  phrase:
+    container_name: speech-to-phrase
+    image: rhasspy/wyoming-speech-to-phrase:1.4.3@sha256:e532f0dbc6b21285c4c784212003865b9167041927328a767cb0beb1a0beaa20
+    command: --hass-websocket-uri 'ws://host.docker.internal:8123/api/websocket' --hass-token '${HASS_TOKEN}' --retrain-on-start
+    volumes:
+      - phrase_models:/models
+      - phrase_train:/train
+    environment:
+      - TZ=Europe/Berlin
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - 127.0.0.1:10300:10300
+
+  piper:
+    container_name: piper
+    image: rhasspy/wyoming-piper:2.4.2@sha256:72ee1b06b062cb14f4a70de002eb420a068efd5a7a8cb7620be6bf600307f867
+    command: --voice de_DE-eva_k-x_low
+    volumes:
+      - piper_data:/data
+    environment:
+      - TZ=Europe/Berlin
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:10200:10200
+
+volumes:
+  phrase_models:
+  phrase_train:
+  piper_data:
