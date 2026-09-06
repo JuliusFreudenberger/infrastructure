@@ -3,7 +3,7 @@ version: "3.7"
 services:
   mautrix-telegram:
     container_name: mautrix-telegram
-    image: dock.mau.dev/mautrix/telegram
+    image: dock.mau.dev/mautrix/telegram:v26.08@sha256:c073961f95aafca58392affcb57ea74364a2d17f018a36d29a208828db8a11e8
     restart: unless-stopped
     volumes:
     - bridge_data:/data
@@ -12,6 +12,11 @@ services:
 
 volumes:
   bridge_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=${NFS_SERVER},nfsvers=4.1,soft,noatime
+      device: ${NFS_PATH_MODULES}
 
 networks:
   synapsenet:
