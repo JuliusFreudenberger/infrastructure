@@ -2,10 +2,10 @@ version: '3.7'
 
 services:
   app:
-    image: matrixdotorg/synapse:${synapse_version:-latest}
+    image: matrixdotorg/synapse:v1.160.0@sha256:78de1d10bef02e375f861d1cc99f8bedd9381d4f9083ea8b2c22a053477b205f
     restart: unless-stopped
     volumes:
-      - /media/matrix/matrix_data:/data
+      - synapse_data:/data
       - custom_modules:/usr/local/lib/python3.11/site-packages/custom_modules
     environment:
       - VIRTUAL_HOST=matrix.jfreudenberger.de # the domain where the service should be reached
@@ -17,7 +17,7 @@ services:
       - synapsenet
 
   postgresql:
-    image: postgres:${postgres_version:-13}
+    image: postgres:17@sha256:67f41722b7a8cbdb868a44a4995c846eddfdc2973bccb291ce937dce88ad5675
     restart: unless-stopped
     environment:
       - POSTGRES_PASSWORD=synapse
@@ -30,8 +30,24 @@ services:
       - server
 
 volumes:
+  synapse_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=${NFS_SERVER},nfsvers=4.1,soft,noatime
+      device: ${NFS_PATH_DATA}
   custom_modules:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=${NFS_SERVER},nfsvers=4.1,soft,noatime
+      device: ${NFS_PATH_MODULES}
   postgres_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=${NFS_SERVER},nfsvers=4.1,hard,noatime
+      device: ${NFS_PATH_DATABASE}
 
 networks:
   server:
