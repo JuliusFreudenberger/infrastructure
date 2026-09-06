@@ -3,16 +3,16 @@ version: "3.7"
 services:
   mautrix-signal:
     container_name: mautrix-signal
-    image: dock.mau.dev/mautrix/signal:${bridge_version:-13-alpine}
+    image: dock.mau.dev/mautrix/signal:v26.08@sha256:edafbdfa23366715a5ca9e4c3a5d08efd01e1ff86212d683e1e5c16b681fa2f3
     restart: unless-stopped
     volumes:
     - bridge_data:/data
     networks:
-    - default
+    - signal-db
     - synapsenet
 
   db:
-    image: postgres:${postgres_version:-13-alpine}
+    image: postgres:13-alpine@sha256:fb9065b6e3e213bdc07edd372a5b2a26245840b7fb65d1fd8b6700106d51805c
     restart: unless-stopped
     environment:
       POSTGRES_USER: mautrixsignal
@@ -20,12 +20,25 @@ services:
       POSTGRES_PASSWORD: mautrixsignal
     volumes:
     - postgres_data:/var/lib/postgresql/data
+    networks:
+      - signal-db
 
 volumes:
   bridge_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=${NFS_SERVER},nfsvers=4.1,soft,noatime
+      device: ${NFS_PATH_DATA}
   postgres_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=${NFS_SERVER},nfsvers=4.1,hard,noatime
+      device: ${NFS_PATH_DATABASE}
 
 networks:
+  signal-db:
   synapsenet:
     external: true
     name: synapsenet
