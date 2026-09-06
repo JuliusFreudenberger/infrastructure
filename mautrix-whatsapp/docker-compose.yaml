@@ -3,7 +3,7 @@ version: "3.7"
 services:
   mautrix-whatsapp:
     container_name: mautrix-whatsapp
-    image: dock.mau.dev/mautrix/whatsapp
+    image: dock.mau.dev/mautrix/whatsapp:v26.08@sha256:86237c4d0d33a1e08910b1f820e6c561f9b8e21dc26943caf266e01021087002
     restart: unless-stopped
     volumes:
     - bridge_data:/data
@@ -12,6 +12,11 @@ services:
 
 volumes:
   bridge_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=${NFS_SERVER},nfsvers=4.1,soft,noatime
+      device: ${NFS_PATH_MODULES}
 
 networks:
   synapsenet:
