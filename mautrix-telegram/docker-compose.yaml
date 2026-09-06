@@ -16,7 +16,7 @@ volumes:
     driver_opts:
       type: nfs
       o: addr=${NFS_SERVER},nfsvers=4.1,soft,noatime
-      device: ${NFS_PATH_MODULES}
+      device: ${NFS_PATH_DATA}
 
 networks:
   synapsenet:
