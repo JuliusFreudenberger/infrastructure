@@ -22,7 +22,8 @@ services:
 
   emhass:
     container_name: emhass
-    image: ghcr.io/davidusb-geek/emhass:v0.18.1@sha256:c4b436a58ee0a01aa53ebbfa6b324cddbbd108ea70a7c29c74aebdafddbc6d6c
+    image: ghcr.io/davidusb-geek/emhass:v0.18.2@sha256:2ea230888a66b90a147de99277aff5fedec7f4c45746e1da6533b52ea9388c68
+    restart: unless-stopped
     volumes:
       - emhass_data:/share
     environment:
