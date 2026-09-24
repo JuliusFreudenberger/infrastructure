@@ -39,7 +39,7 @@ services:
       - firefly
 
   fints-importer:
-    image: benkl/firefly-iii-fints-importer:2026-03-18@sha256:92a5aaa09822ab62eb90d516165291b6be6281fc69625543f87a11c0909d2e15
+    image: zot.jfreudenberger.de/firefly-fints/firefly-iii-fints-importer:2026-09-24@sha256:abca99d7ea7816aab409bd302771f784315f3df7b3e0b1a9e54e2f052d6e9bb4
     restart: unless-stopped
     volumes:
       - importer-configurations:/app/configurations
