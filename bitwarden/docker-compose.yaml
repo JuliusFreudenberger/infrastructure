@@ -2,7 +2,7 @@ version: '3'
 
 services:
   bitwarden:
-    image: vaultwarden/server:1.37.3@sha256:1587c45feaa479f1f5e8af3b00eded36bff77bcf1880cf8dbf0541706dd470e0
+    image: vaultwarden/server:1.37.4@sha256:19ea2b669945d842dadc3d500f2d6a795866a003330f59a47b9634658bae98bb
     restart: unless-stopped
     volumes:
       - bitwarden-data:/data
