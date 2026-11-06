@@ -3,7 +3,7 @@ version: "3.7"
 services:
   mautrix-signal:
     container_name: mautrix-signal
-    image: dock.mau.dev/mautrix/signal:v26.08@sha256:edafbdfa23366715a5ca9e4c3a5d08efd01e1ff86212d683e1e5c16b681fa2f3
+    image: dock.mau.dev/mautrix/signal:v26.10@sha256:39afa721aa69472b2e91c75bd7d81a739e47f7e480fc0ff5ac8247af28eb2d0a
     restart: unless-stopped
     volumes:
     - bridge_data:/data

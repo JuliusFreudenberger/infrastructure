@@ -3,7 +3,7 @@ version: "3.7"
 services:
   mautrix-telegram:
     container_name: mautrix-telegram
-    image: dock.mau.dev/mautrix/telegram:v26.08@sha256:c073961f95aafca58392affcb57ea74364a2d17f018a36d29a208828db8a11e8
+    image: dock.mau.dev/mautrix/telegram:v26.10@sha256:ed3f3b39289fae425a875311d8875729271c24f88ba03209bd1bfbaf31e6c78f
     restart: unless-stopped
     volumes:
     - bridge_data:/data
